@@ -8,7 +8,7 @@
 <body>
     <?php
     $number = 15;
-
+    echo "Number: $number <br />";
     if ($number % 3 == 0 && $number % 5 == 0) {
         echo "The number is divisible by both 3 and 5.";
     } elseif ($number % 3 == 0) {
