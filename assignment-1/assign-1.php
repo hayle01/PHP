@@ -13,6 +13,8 @@
     $b = 5;
     $c = 9;
 
+    echo "$a, $b, $c";
+    echo "<br />"; 
     $largest = $a;
     $smallest = $a;
 
