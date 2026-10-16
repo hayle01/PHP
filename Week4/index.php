@@ -158,11 +158,27 @@
                     <input type="radio" name="gender" id="female" value="female" required>
                     Female
                 </label>
-                <?php 
-                    if(!empty($_POST["gender"]))
-                        echo "<p style='color: red; font-size: 13px; margin: 0;'>Selected Gender: " . htmlspecialchars($_POST["gender"]) . "</p>";
+                <?php
+                if (!empty($_POST["gender"]))
+                    echo "<p style='color: red; font-size: 13px; margin: 0;'>Selected Gender: " . htmlspecialchars($_POST["gender"]) . "</p>";
                 ?>
             </div>
+            <label for="Districtis">Districtis</label>
+            <select name="districts" value="districts">
+                <option value="hodan">Hodan</option>
+                <option value="karan">Karan</option>
+                <option value="kaxda">Kaxda</option>
+                <option value="wadajir">Wadajir</option>
+                <option value="madiino">Madiino</option>
+            </select>
+            <label for="preferred-districts">Preferred Districts (select one or more)</label>
+            <select name="preferred_districts[]" id="preferred-districts" multiple size="5">
+                <option value="hodan">Hodan</option>
+                <option value="karan">Karan</option>
+                <option value="kaxda">Kaxda</option>
+                <option value="wadajir">Wadajir</option>
+                <option value="madiino">Madiino</option>
+            </select>
             <div class="form-actions">
                 <button type="reset" name="reset" value="reset">Reset Form</button>
                 <button type="submit" name="register" value="register">Register</button>
@@ -185,6 +201,34 @@
             <div class="result-item">
                 <span class="result-label">Gender</span>
                 <p class="result-value"><?php echo $_POST["gender"] ?? ""; ?></p>
+            </div>
+            <div class="result-item">
+                <span class="result-label">District</span>
+                <?php
+                if (empty($_POST["districts"])) {
+                    echo "select one option";
+                }
+                ?>
+                <p class="result-value">
+                    <?php
+                    echo $_POST["districts"] ?? ""
+                    ?>
+                </p>
+            </div>
+            <div class="result-item">
+                <span class="result-label">Preferred Districts</span>
+                <?php
+                $preferredDistricts = $_POST["preferred_districts"] ?? [];
+                if (is_array($preferredDistricts) && count($preferredDistricts) > 0) {
+                    foreach ($preferredDistricts as $district) {
+                        if (is_string($district)) {
+                            echo "<p class=\"result-value\">" . htmlspecialchars($district, ENT_QUOTES, "UTF-8") . "</p>";
+                        }
+                    }
+                } else {
+                    echo "<p class=\"result-value\">No districts selected</p>";
+                }
+                ?>
             </div>
         </section>
     </main>

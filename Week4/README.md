@@ -1,6 +1,6 @@
 # Week 4: HTML Forms and PHP Form Processing
 
-This lesson demonstrates how an HTML form collects user input and how PHP reads submitted values from the `$_POST` superglobal. The example in [`index.php`](index.php) is a registration form with a name, password, message, and gender selection.
+This lesson demonstrates how an HTML form collects user input and how PHP reads submitted values from the `$_POST` superglobal. The example in [`index.php`](index.php) is a registration form with a name, password, message, gender selection, and single- and multi-select district controls.
 
 ## 1. Form structure and submission
 
@@ -22,7 +22,11 @@ The form includes:
 - A password input.
 - A `<textarea>` for a message.
 - Radio buttons that share the `gender` name, so the user selects one option.
+- A single-select district dropdown.
+- A multi-select district control named `preferred_districts[]`, which submits its selected values as an array.
 - Reset and submit buttons.
+
+To choose more than one district, hold Ctrl while clicking options on Windows (or Command on macOS).
 
 The `required` attribute asks the browser to check that these fields have a value before submission. This is browser-side validation, not a replacement for validating submitted data in PHP.
 
@@ -35,9 +39,23 @@ $_POST["fullname"];
 $_POST["password"];
 $_POST["message"];
 $_POST["gender"];
+$_POST["districts"];
 ```
 
 The example displays the submitted values in its Registration Details panel and checks whether a gender value was submitted before showing the selected option. The form control names are case-sensitive and must match the keys used in PHP.
+
+The multi-select control uses the `[]` suffix in its `name`, so PHP receives its selected values as an array. The example uses `foreach` to display each district and escapes it before output:
+
+```php
+$preferredDistricts = $_POST["preferred_districts"] ?? [];
+if (is_array($preferredDistricts) && count($preferredDistricts) > 0) {
+    foreach ($preferredDistricts as $district) {
+        if (is_string($district)) {
+            echo htmlspecialchars($district, ENT_QUOTES, "UTF-8");
+        }
+    }
+}
+```
 
 ## 4. Form processing workflow
 
